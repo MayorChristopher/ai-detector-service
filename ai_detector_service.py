@@ -14,6 +14,8 @@ def query(payload):
         return response.json()
     except Exception as e:
         print("HuggingFace API error:", response.status_code, response.text)
+        if response.status_code == 429:
+            return {"error": "Too many requests to HuggingFace API. Please try again later.", "status_code": 429}
         return {"error": f"Failed to parse HuggingFace response: {e}", "status_code": response.status_code, "raw": response.text}
 
 @app.post("/detect")
