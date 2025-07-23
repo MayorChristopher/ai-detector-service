@@ -1,10 +1,11 @@
 from fastapi import FastAPI, Request
 import requests
+import os
 
 app = FastAPI()
 
 API_URL = "https://api-inference.huggingface.co/models/roberta-base-openai-detector"
-HF_TOKEN = "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"  # Your HuggingFace token
+HF_TOKEN = os.getenv("HF_TOKEN")  # HuggingFace token is loaded from environment variable
 headers = {"Authorization": f"Bearer {HF_TOKEN}"}
 
 def query(payload):
