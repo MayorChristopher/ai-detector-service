@@ -10,7 +10,11 @@ headers = {"Authorization": f"Bearer {HF_TOKEN}"}
 
 def query(payload):
     response = requests.post(API_URL, headers=headers, json=payload)
-    return response.json()
+    try:
+        return response.json()
+    except Exception as e:
+        print("HuggingFace API error:", response.status_code, response.text)
+        return {"error": f"Failed to parse HuggingFace response: {e}", "status_code": response.status_code, "raw": response.text}
 
 @app.post("/detect")
 async def detect(request: Request):
